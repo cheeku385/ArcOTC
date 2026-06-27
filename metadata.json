@@ -1,0 +1,6 @@
+{
+  "name": "ArcOTC",
+  "description": "Swap USDC and EURC. Peer to Peer. First P2P OTC trading platform on Arc Testnet.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

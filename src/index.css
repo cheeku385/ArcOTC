@@ -1,0 +1,686 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", sans-serif;
+  --font-heading: "Space Grotesk", sans-serif;
+  --font-number: "Orbitron", sans-serif;
+  
+  --color-brand-success: #FFFFFF;
+  --color-brand-danger: #FF3B3B;
+  --color-brand-warning: #FFD700;
+
+  --color-brand-primary: var(--btn-border, #111827);
+  --color-brand-accent: var(--text-accent, #111827);
+  --color-brand-surface: var(--bg-surface, #111827);
+  --color-brand-text-secondary: var(--text-muted, #9CA3AF);
+}
+
+/* --------------------------------------------------
+   CASCADING VARIABLES FOR SUPERB THEME INDEPENDENCE
+   -------------------------------------------------- */
+
+:root, body, .dark {
+  --bg-app: #020F02; /* Solid dark green base background */
+  --bg-surface: #010801; /* Sophisticated card surface background */
+  --bg-card: rgba(0, 200, 83, 0.05);
+  --border-color: #00C853; /* Subtle green border */
+  --border-hover: #00E676;
+  --text-main: #FFFFFF; /* Sharp, legible white text */
+  --text-muted: #A5D6A7; /* Readable green-gray text */
+  --text-accent: #00C853; /* Bright green accent */
+  --btn-bg: #00C853;
+  --btn-border: #00C853;
+  --btn-text: #000000;
+}
+
+.light {
+  --bg-app: #F0F7F0; /* Distinctive clean light cream green background */
+  --bg-surface: #E0EDE0; /* Light green card surfaces */
+  --bg-card: #FFFFFF; /* Solid white card background */
+  --border-color: #00C853;
+  --border-hover: #00E676;
+  --text-main: #000000; /* Rich black text */
+  --text-muted: #2E7D32;
+  --text-accent: #00C853;
+  --btn-bg: #00C853;
+  --btn-border: #00C853;
+  --btn-text: #000000;
+}
+
+/* Apply cascading theme variables to body styling with transition safety */
+body {
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Reset all blurry outlines, text shadows, glowing effects except for SVG elements or blur/glow effects */
+*:not(svg):not(path):not(g):not(filter):not(feGaussianBlur):not(feMerge):not(feMergeNode):not([class*="blur"]):not([class*="glow"]) {
+  text-shadow: none !important;
+  text-shadow: 0 0 0 transparent !important;
+  filter: none !important;
+}
+
+.glow-btn, .text-glow-green, [class*="shadow-[0_0_"] {
+  text-shadow: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* Glass & Solid Theme Cards */
+.card-glass {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease-in-out;
+}
+
+.card-glass:hover {
+  border-color: var(--border-hover);
+}
+
+/* Inputs and Forms - ensure extreme contrast and crisp rendering */
+input, select, textarea {
+  background-color: var(--bg-surface) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-main) !important;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--border-hover) !important;
+  outline: none !important;
+}
+
+input::placeholder, select::placeholder, textarea::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 0.65;
+}
+
+/* Core Buttons alignment checks */
+button,
+a.glow-btn,
+a[class*="bg-brand-primary"] {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+/* ----------------------------------------------------
+   LIGHT/DARK ELEMENT INJECTS & REFINEMENT COMPLIANCE
+   ---------------------------------------------------- */
+
+.light h1:not([data-rk] *), .light h2:not([data-rk] *), .light h3:not([data-rk] *), .light h4:not([data-rk] *), .light h5:not([data-rk] *), .light h6:not([data-rk] *),
+.light p:not([data-rk] *), .light span:not([data-rk] *), .light div:not([data-rk] *), .light a:not([data-rk] *), .light label:not([data-rk] *), .light input:not([data-rk] *), .light select:not([data-rk] *), .light textarea:not([data-rk] *), .light strong:not([data-rk] *), .light small:not([data-rk] *), .light b:not([data-rk] *), .light i:not([data-rk] *), .light li:not([data-rk] *), .light th:not([data-rk] *), .light td:not([data-rk] *) {
+  color: #111827;
+}
+
+.dark h1:not([data-rk] *), .dark h2:not([data-rk] *), .dark h3:not([data-rk] *), .dark h4:not([data-rk] *), .dark h5:not([data-rk] *), .dark h6:not([data-rk] *),
+.dark p:not([data-rk] *), .dark span:not([data-rk] *), .dark div:not([data-rk] *), .dark a:not([data-rk] *), .dark label:not([data-rk] *), .dark input:not([data-rk] *), .dark select:not([data-rk] *), .dark textarea:not([data-rk] *), .dark strong:not([data-rk] *), .dark small:not([data-rk] *), .dark b:not([data-rk] *), .dark i:not([data-rk] *), .dark li:not([data-rk] *), .dark th:not([data-rk] *), .dark td:not([data-rk] *) {
+  color: #F3F4F6;
+}
+
+/* Override input styling inside Light Mode particularly */
+.light input, .light select, .light textarea {
+  color: #111827 !important;
+  -webkit-text-fill-color: #111827 !important;
+  background-color: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Force Light text for icons inside Light/Dark modes */
+.light svg {
+  color: #111827;
+}
+.light svg path, .light svg circle, .light svg rect, .light svg line, .light svg polyline, .light svg polygon {
+  stroke: #111827;
+}
+
+/* Subtly tinted icons for dark mode */
+.dark svg {
+  color: #FFFFFF;
+}
+.dark svg path, .dark svg circle, .dark svg rect, .dark svg line, .dark svg polyline, .dark svg polygon {
+  stroke: #FFFFFF;
+}
+
+/* Allow custom icon colors to be active (overriding default svg fill/stroke colors) */
+.dark .text-white svg {
+  color: #FFFFFF;
+}
+.dark .text-white svg path, .dark .text-white svg circle, .dark .text-white svg rect {
+  stroke: #FFFFFF;
+}
+
+/* Let the special elements have their design layout */
+/* Active path selections in create order and inputs */
+.light .bg-brand-primary,
+.light .hover\:bg-brand-primary\/10:hover,
+.light .hover\:bg-brand-primary:hover {
+  background-color: #E2E8E2 !important;
+  border: 1.5px solid #000000 !important;
+}
+
+/* Custom override for Create Order Execution Checkout steps */
+.light .card-glass,
+.light #create-order-form,
+.light #create-order-form div,
+.light #create-order-form input {
+  background-color: #F3F4F6 !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+.light #create-order-form button {
+  background-color: #F3F4F6 !important;
+  border: 1.5px solid #000000 !important;
+}
+
+.light #create-order-form button:hover {
+  background-color: #E5E7EB !important;
+}
+
+.dark .card-glass,
+.dark #create-order-form,
+.dark #create-order-form div,
+.dark #create-order-form input {
+  background-color: #111827 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark #create-order-form button {
+  background-color: #0B0F19 !important;
+  border: 1.5px solid #FFFFFF !important;
+}
+
+.dark #create-order-form button:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Logo Red Shiny Design */
+@keyframes shine-sweep {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.logo-shiny-text {
+  background: linear-gradient(
+    120deg,
+    #FF0000 0%,
+    #FF4444 35%,
+    #FFFFFF 50%,
+    #FF4444 65%,
+    #FF0000 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent !important;
+  animation: shine-sweep 3s linear infinite;
+  filter: drop-shadow(0 0 4px rgba(255, 0, 0, 0.4));
+  font-weight: 900;
+}
+
+.logo-icon-red {
+  filter: drop-shadow(0 0 6px #FF0000) drop-shadow(0 0 2px rgba(255, 0, 0, 0.6));
+}
+
+.logo-icon-red path {
+  stroke: #FF0000 !important;
+}
+
+/* Full screen Light mode backgrounds of everything */
+.light #app-content-root,
+.light main {
+  background-color: #E8E8E8 !important;
+}
+
+.light #left-sidebar {
+  background: linear-gradient(180deg, #D0D0D0, #E8E8E8) !important;
+  border-right: 2px solid #A0A0A0 !important;
+}
+
+.light #top-navbar {
+  background: linear-gradient(135deg, #D0D0D0, #E8E8E8) !important;
+  border-bottom: 2px solid #A0A0A0 !important;
+}
+
+.light #footer-root {
+  background: linear-gradient(135deg, #D0D0D0, #E0E0E0) !important;
+  border-top: 2px solid #A0A0A0 !important;
+}
+
+/* Nav links in light mode */
+.light #left-sidebar a {
+  color: #1A1A1A !important;
+}
+
+.light #left-sidebar a.border-l-4 {
+  color: #007A33 !important;
+  -webkit-text-fill-color: #007A33 !important;
+  border-left-color: #007A33 !important;
+  background-color: rgba(0, 122, 51, 0.15) !important;
+}
+
+.light #left-sidebar a.border-l-4 span,
+.light #left-sidebar a.border-l-4 svg {
+  color: #007A33 !important;
+  stroke: #007A33 !important;
+}
+
+/* Dark mode full screen backgrounds of everything */
+.dark #app-content-root,
+.dark #top-navbar,
+.dark #left-sidebar,
+.dark #footer-root,
+.dark main {
+  background-color: #020F02 !important;
+  border-color: rgba(0, 200, 83, 0.15) !important;
+}
+
+/* Cards & forms: styling for dark and light modes with green borders */
+.dark .card-glass,
+.dark #create-order-form {
+  background-color: #010801 !important;
+  border: 1.5px solid #00C853 !important;
+}
+
+.light .card-glass,
+.light #create-order-form {
+  background: linear-gradient(135deg, #F0F0F0, #E0E0E0) !important;
+  border: 2px solid #00C853 !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.8) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Silver shine sweep animation */
+.light .card-glass::after,
+.light #create-order-form::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-25deg);
+  animation: shine-sweep-silver 4s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes shine-sweep-silver {
+  0% {
+    left: -150%;
+  }
+  50% {
+    left: 150%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+
+/* Ensure card headers and metadata transitions keep pristine design integrity without breaking logo colors */
+.light label {
+  color: #333333 !important;
+}
+
+.light p,
+.light span,
+.light div:not(.logo-shiny-text):not([data-rk] *) {
+  color: #1A1A1A !important;
+}
+
+.light h1, 
+.light h2, 
+.light h3, 
+.light h4, 
+.light h5, 
+.light h6 {
+  color: #000000 !important;
+}
+
+.light td, 
+.light th {
+  color: #1A1A1A !important;
+}
+
+/* Subtext and general labels */
+.light .text-slate-500, 
+.light .text-slate-400, 
+.light .text-[#4B5563], 
+.light .text-[#9CA3AF] {
+  color: #555555 !important;
+  opacity: 1 !important;
+}
+
+.dark label, .dark span, .dark p, .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6, .dark div, .dark td, .dark th {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+.dark .text-slate-500, .dark .text-slate-400, .dark .text-[#4B5563], .dark .text-[#9CA3AF] {
+  color: #FFFFFF !important;
+  opacity: 0.8;
+}
+
+/* Custom exception for Red Shiny Logo in light mode to keep its color */
+.light .logo-shiny-text {
+  background: linear-gradient(
+    120deg,
+    #FF0000 0%,
+    #FF4444 35%,
+    #FFFFFF 50%,
+    #FF4444 65%,
+    #FF0000 100%
+  ) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+/* Custom exceptions for Navigation Links */
+.light .active-nav-link,
+.light .active-nav-link span {
+  color: #007A33 !important;
+  -webkit-text-fill-color: #007A33 !important;
+}
+
+.light .inactive-nav-link,
+.light .inactive-nav-link span {
+  color: #1A1A1A !important;
+  -webkit-text-fill-color: #1A1A1A !important;
+}
+
+/* Red Connect Wallet customization (FIX 3) */
+.btn-connect-red {
+  background-color: #FF0000 !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  border: 2px solid #FF4444 !important;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.4) !important;
+  font-weight: bold !important;
+}
+
+.btn-connect-red:hover {
+  background-color: #CC0000 !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  border: 2px solid #FF0000 !important;
+  box-shadow: 0 0 20px #FF0000 !important;
+}
+
+.btn-connect-red svg, .btn-connect-red svg path {
+  stroke: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+/* Connected State Button - Green border, text white, simple name display with no glow */
+.btn-connected-green {
+  background-color: #010801 !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  border: 2px solid #00C853 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  font-weight: bold !important;
+}
+
+.light .btn-connected-green {
+  background: linear-gradient(135deg, #D0D0D0, #E8E8E8) !important;
+  border: 2px solid #00C853 !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  box-shadow: 0 0 10px rgba(0,200,83,0.3) !important;
+}
+
+/* Universal Button Colors (FIX 1) - both modes green #00C853, text black #000000 bold */
+button:not(.btn-connect-red):not(.btn-connected-green):not([aria-label="Close"]):not([role="menuitem"]):not([data-rk] *),
+.bg-black,
+.dark .bg-white {
+  background-color: #00C853 !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  font-weight: 800 !important;
+  border-radius: 12px;
+}
+
+button:not(.btn-connect-red):not(.btn-connected-green):not([aria-label="Close"]):not([role="menuitem"]):not([data-rk] *):hover,
+.bg-black:hover,
+.dark .bg-white:hover {
+  background-color: #00E676 !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+/* Primary Buttons in light mode: #00C853 green with text #000000 black */
+.light button.btn-primary,
+.light button[class*="bg-[#00C853]"],
+.light a[class*="bg-[#00C853]"],
+.light button[class*="bg-black"],
+.light a[class*="bg-black"] {
+  background-color: #00C853 !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  font-weight: 800 !important;
+  border-radius: 12px;
+  border: 2px solid #00C853 !important;
+  box-shadow: none !important;
+}
+
+.light button.btn-primary:hover,
+.light button[class*="bg-[#00C853]"]:hover,
+.light a[class*="bg-[#00C853]"]:hover,
+.light button[class*="bg-black"]:hover,
+.light a[class*="bg-black"]:hover {
+  background-color: #00E676 !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+/* Secondary Buttons in light mode: silver gradient, text black, border 1px solid #A0A0A0 */
+.light button.btn-secondary,
+.light button[class*="border-slate-350"],
+.light button[class*="border-slate-300"],
+.light button[class*="border-black"],
+.light a[class*="border-black"],
+.light button[class*="bg-slate-150"],
+.light a[class*="bg-slate-150"],
+.light button:not([class*="bg-[#00C853]"]):not(.btn-connect-red):not(.btn-connected-green):not([aria-label="Close"]):not([role="menuitem"]):not([data-rk] *):not([class*="bg-black"]):not([id^="theme-toggle"]) {
+  background: linear-gradient(135deg, #C0C0C0, #E8E8E8) !important;
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+  border: 1px solid #A0A0A0 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+  font-weight: 800 !important;
+  border-radius: 12px;
+}
+
+.light button.btn-secondary:hover,
+.light button[class*="border-slate-300"]:hover,
+.light button[class*="border-black"]:hover,
+.light a[class*="border-black"]:hover {
+  opacity: 0.9 !important;
+}
+
+/* ----------------------------------------------------
+   RAINBOWKIT CONNECT MODAL CONTRAST AND COLOR STYLING
+   ---------------------------------------------------- */
+[data-rk] {
+  --rk-colors-modalBackground: var(--bg-surface, #111827) !important;
+  --rk-colors-modalText: var(--text-main, #FFFFFF) !important;
+  --rk-colors-modalTextSecondary: var(--text-muted, #9CA3AF) !important;
+  --rk-colors-connectionIndicator: #10B981 !important;
+  --rk-colors-closeButton: var(--text-main, #FFFFFF) !important;
+  --rk-colors-closeButtonBackground: var(--bg-app, #0B0F19) !important;
+  --rk-colors-accentColor: #EF4444 !important;
+  --rk-colors-accentColorForeground: #FFFFFF !important;
+  --rk-colors-menuItemBackgroundActive: var(--bg-surface, #111827) !important;
+}
+
+.light [data-rk] {
+  --rk-colors-modalBackground: #F0F0F0 !important;
+  --rk-colors-modalText: #000000 !important;
+  --rk-colors-modalTextSecondary: #333333 !important;
+  --rk-colors-actionButtonBorder: #00C853 !important;
+  --rk-colors-accentColor: #FF3B3B !important;
+  --rk-colors-accentColorForeground: #FFFFFF !important;
+  --rk-colors-connectionIndicator: #00FF88 !important;
+  --rk-colors-closeButton: #000000 !important;
+  --rk-colors-closeButtonBackground: #E8E8E8 !important;
+}
+
+/* Ensure font color inside the RainbowKit portal conforms specifically to Light/Dark settings */
+.light [data-rk] *,
+.light [data-rk] span,
+.light [data-rk] div,
+.light [data-rk] h1,
+.light [data-rk] h2,
+.light [data-rk] h3,
+.light [data-rk] h4,
+.light [data-rk] p,
+.light [data-rk] b,
+.light [data-rk] button {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+/* Connected wallet dropdown / details modal container in light mode */
+.light [data-rk] div[role="dialog"] {
+  background: #F0F0F0 !important;
+  border: 2px solid #00C853 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Address text in light mode */
+.light [data-rk] .iekbcc0,
+.light [data-rk] [class*="address"],
+.light [data-rk] [class*="Address"] {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
+}
+
+/* Balance text in light mode: #007A33 dark green */
+.light [data-rk] [data-testid="rk-balance"],
+.light [data-rk] div[class*="balance"],
+.light [data-rk] span[class*="balance"],
+.light [data-rk] [class*="balance"] *,
+.light [data-rk] div[class*="Balance"],
+.light [data-rk] span[class*="Balance"],
+.light [data-rk] [class*="Balance"] * {
+  color: #007A33 !important;
+  -webkit-text-fill-color: #007A33 !important;
+}
+
+/* Disconnect button in light mode: #FF3B3B red background, white text */
+.light [data-rk] button[class*="Disconnect"],
+.light [data-rk] button[id*="disconnect"],
+.light [data-rk] button[class*="disconnect"] {
+  background-color: #FF3B3B !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+.dark [data-rk] *,
+.dark [data-rk] span,
+.dark [data-rk] div,
+.dark [data-rk] h1,
+.dark [data-rk] h2,
+.dark [data-rk] h3,
+.dark [data-rk] h4,
+.dark [data-rk] p,
+.dark [data-rk] b,
+.dark [data-rk] button {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* Fix close button visibility in Light mode */
+.light [data-rk] button[aria-label="Close"] svg {
+  color: #111827 !important;
+  stroke: #111827 !important;
+}
+.light [data-rk] button[aria-label="Close"] svg path {
+  stroke: #111827 !important;
+}
+
+/* Standardize option hover buttons inside the wallets select list */
+[data-rk] [role="menuitem"],
+[data-rk] button[type="button"] {
+  transition: all 0.15s ease-in-out;
+}
+.light [data-rk] [role="menuitem"]:hover,
+.light [data-rk] button[type="button"]:hover {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+.dark [data-rk] [role="menuitem"]:hover,
+.dark [data-rk] button[type="button"]:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* ----------------------------------------------------
+   LIGHT MODE STATS CARDS AND GENERAL INTERFACES
+   ---------------------------------------------------- */
+.light #stats-section .card-glass,
+.light #admin-dashboard-container .card-glass,
+.light [id^="stats-section"] .card-glass,
+.light [id^="admin-analytics"] .card-glass {
+  background: linear-gradient(135deg, #ECECEC, #D8D8D8) !important;
+  border: 1px solid #B0B0B0 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+}
+
+.light #stats-section .card-glass:hover,
+.light #admin-dashboard-container .card-glass:hover,
+.light [id^="stats-section"] .card-glass:hover {
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.4), 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  border-color: #A0A0A0 !important;
+  transform: translateY(-2px);
+}
+
+.light #stats-section .card-glass p,
+.light #admin-dashboard-container .card-glass span,
+.light #admin-dashboard-container .card-glass p {
+  color: #555555 !important;
+}
+
+.light #stats-section .card-glass .font-number,
+.light #admin-dashboard-container .card-glass .font-number,
+.light #admin-dashboard-container .card-glass .text-2xl {
+  color: #000000 !important;
+  font-weight: 850 !important;
+}
+
+/* Force light mode inputs to standard theme specification */
+.light input,
+.light select,
+.light textarea {
+  background-color: #F5F5F5 !important;
+  border: 2px solid #00C853 !important;
+  color: #000000 !important;
+}
+
+.light input:focus,
+.light select:focus,
+.light textarea:focus {
+  border-color: #A0A0A0 !important;
+  box-shadow: 0 0 8px rgba(192, 192, 192, 0.8) !important;
+  outline: none !important;
+}
+
+.light input::placeholder {
+  color: #889988 !important;
+}
+
+

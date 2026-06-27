@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Google AI Studio App</title>
+    <script>
+      // Prevent crashing when third-party libraries attempt to redefine non-configurable window.ethereum
+      (function() {
+        const originalDefineProperty = Object.defineProperty;
+        Object.defineProperty = function(obj, prop, descriptor) {
+          try {
+            return originalDefineProperty(obj, prop, descriptor);
+          } catch (e) {
+            if (prop === 'ethereum') {
+              console.warn("Caught and suppressed 'Cannot redefine property: ethereum' error:", e);
+              try {
+                if (descriptor && 'value' in descriptor) {
+                  obj[prop] = descriptor.value;
+                }
+              } catch (inner) {
+                // Ignore fallback failure
+              }
+              return obj;
+            }
+            throw e;
+          }
+        };
+
+        const originalDefineProperties = Object.defineProperties;
+        Object.defineProperties = function(obj, properties) {
+          try {
+            return originalDefineProperties(obj, properties);
+          } catch (e) {
+            if (properties && 'ethereum' in properties) {
+              console.warn("Caught and suppressed 'Cannot redefine properties: ethereum' error:", e);
+              for (const prop of Object.keys(properties)) {
+                try {
+                  Object.defineProperty(obj, prop, properties[prop]);
+                } catch (inner) {
+                  if (prop !== 'ethereum') {
+                    throw inner;
+                  }
+                }
+              }
+              return obj;
+            }
+            throw e;
+          }
+        };
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
